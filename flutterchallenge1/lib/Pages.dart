@@ -4,43 +4,56 @@ import 'package:flutter/material.dart';
 class PageViews extends StatelessWidget
 {
   final PageViewModel viewModel;
+  final double opacity;
 
-  PageViews(this.viewModel);
+  PageViews(this.viewModel, this.opacity);
 
   @override
   Widget build(BuildContext context) {
   return new Container(
     width: double.infinity,
-    color: viewModel._color,//Colors.blueAccent,
-    child: new Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom:20.0),
-          child: new Image.asset(viewModel._iconAssestIcon,width: 200.0, height: 200),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 4.0), //should i add padding above
-          child: new Text(viewModel._title,
-            style: new TextStyle(
-              color: Colors.white,
-              fontFamily: 'FlamanteRoma',
-              fontSize: 34.0,
-            ),//Header Style Text
+    color: viewModel.color,//Colors.blueAccent,
+    child: Opacity(
+      opacity: this.opacity,
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+         new Transform(
+           transform: new Matrix4.translationValues(0.0,50.0*(1-opacity),0),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom:20.0),
+              child: new Image.asset(viewModel.iconAssestIcon,width: 200.0, height: 200),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),//don't really need in my opinion -> lets double check
-          child: new Text(viewModel._body,
-              textAlign: TextAlign.center,
-              style: new TextStyle(
+          new Transform(
+          transform: Matrix4.translationValues(0.0, 30.0 *(1-opacity), 0.0),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 4.0), //should i add padding above
+              child: new Text(viewModel.title,
+                style: new TextStyle(
                   color: Colors.white,
-                  fontFamily: 'FlamanteRomaItalics',
-                  fontSize: 18.0)
+                  fontFamily: 'FlamanteRoma',
+                  fontSize: 34.0,
+                ),//Header Style Text
+              ),
+            ),
           ),
-        ),
+          new Transform(
+            transform: Matrix4.translationValues(0.0, 20*(1-opacity), 0.0),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),//don't really need in my opinion -> lets double check
+              child: new Text(viewModel.body,
+                  textAlign: TextAlign.center,
+                  style: new TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'FlamanteRomaItalics',
+                      fontSize: 18.0)
+              ),
+            ),
+          ),
 
-      ],
+        ],
+      ),
     ),
 
   );//Container
@@ -49,13 +62,13 @@ class PageViews extends StatelessWidget
 
 class PageViewModel
 {
-  final Color _color;
-  final String _title;
-  final String _body;
-  final String _iconAssestIcon;
-  final String _bottomIcon;
+  final Color color;
+  final String title;
+  final String body;
+  final String iconAssestIcon;
+  final String bottomIcon;
 
-  PageViewModel(this._color,this._iconAssestIcon, this._title, this._body ,this._bottomIcon);
+  PageViewModel(this.color,this.iconAssestIcon, this.title, this.body ,this.bottomIcon);
 
 
 }
