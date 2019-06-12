@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterchallenge1/Pages.dart';
+
+import 'Indicator.dart';
+import 'PageReveal.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget
@@ -26,14 +29,27 @@ class _PageState extends State<Page>
 {
 
 
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Stack(
         children: <Widget>[
-          new PageViews(
-          pages[1]
+        new PageViews(
+            pages[0], 1.0
            ),
+          new PageReveal(
+            0.9,
+            new PageViews(
+              pages[1],1.0
+            ),
+          ),
+        new Indicator(new IndicatorViewModel(
+        pages,
+        2,
+        SlideDirection.none,
+        0))
+
         ],
       ),//Stack
     );//Scaffold
