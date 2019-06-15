@@ -41,12 +41,23 @@ class Indicator extends StatelessWidget{
 
         );
       }
+    var translation=45.0*viewModel.pages.length/2.0 - 45.0/2;
+
+    if (viewModel.slideDirection == SlideDirection.lefttoRight)
+    {
+      translation += viewModel.slidePercentage*45.0;
+    }else if(viewModel.slideDirection == SlideDirection.righttoLeft) {
+      translation -= viewModel.slidePercentage*45.0;
+    }
     return new Column(
       children: <Widget>[
         new Expanded(child: Container()),
-        new Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: icons,
+        new Transform(
+          transform: Matrix4.translationValues(translation-viewModel.activeIndex*45.0, 0.0, 0.0),
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: icons,
+          ),
         )
       ],
     );
@@ -91,11 +102,11 @@ class Icon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return new Container(
      transform: Matrix4.translationValues(0, -20, 0) ,
-     width: 45,
+      width: 45,
       height: 45,
-      //padding: const EdgeInsets.only(left: 15*(1.0- viewModel.active), bottom: 25),
       child: Center(
         child: new Container(
           width: lerpDouble(20.0,45.0,viewModel.active),
